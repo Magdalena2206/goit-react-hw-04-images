@@ -51,26 +51,22 @@ export const App = () => {
   };
 
 
-
+  const handleKeyDown = event => {
+    if (event.code === 'Escape') {
+      handleClose();
+    }
+  };
+  const handleBackdropeClick = event => {
+    if (event.target === event.currentTarget) {
+      handleClose();
+    }
+  };
   useEffect(() => {
-    const handleKeyDown = event => {
-      if (event.code === 'Escape') {
-        handleClose();
-      }
-    };
+    
     window.addEventListener('keydown', handleKeyDown);
-  }, []);
-
-  useEffect(() => {
-    const handleBackdropeClick = event => {
-      if (event.target === event.currentTarget) {
-        handleClose();
-      }
-    };
-    window.removeEventListener('keydown', handleBackdropeClick)
-  }, []);
- 
-
+    return () => {window.removeEventListener('keydown', handleKeyDown)
+  };
+},);
 
 
   return (
@@ -94,7 +90,7 @@ export const App = () => {
         </React.Fragment>
       )}
       {modalOpen ? (
-        <Modal src={modalImg} alt={modalAlt} handleClose={handleClose} />
+        <Modal src={modalImg} alt={modalAlt} handleClose={handleBackdropeClick} />
       ) : null}
     </div>
   );
